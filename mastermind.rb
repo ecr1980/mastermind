@@ -2,7 +2,6 @@ def game_setup
    $secret_code = comp_choice()
    $turns = Array.new(12) {Array.new(4, "-")}
    $turns_results = Array.new(12) {Array.new(4, " +")}
-   $player = true
 end
 
 def game_display
@@ -147,28 +146,34 @@ end
 
 
 def game_loop(play_a_round)
-  play_again = ""
   while play_a_round == true
     game_setup()
     game_display()
-    $turns.each_with_index do |turn, i|
-      $OK = false
-      while $OK == false
-        turn = player_choice()
+    if $player == true
+      $turns.each_with_index do |turn, i|
+        $OK = false
+        while $OK == false
+          turn = player_choice()
+        end
+        $turns[i] = turn
+        $win = score_check(turn, i)
+        game_display()
+        if $win
+          puts "You win!"
+          break
+        end
       end
-      $turns[i] = turn
-      $win = score_check(turn, i)
-      game_display()
-      if $win
-        puts "You win!"
-        break
+      if $win != true
+        puts "You didn't get it. So sad."
+        puts "Winning combo was #{$secret_code[0]} #{$secret_code[1]} #{$secret_code[2]} #{$secret_code[3]}."
       end
-    end
-    if $win != true
-      puts "You didn't get it. So sad."
-      puts "Winning combo was #{$secret_code[0]} #{$secret_code[1]} #{$secret_code[2]} #{$secret_code[3]}."
+      $player = false
+    else
+     puts "comp played... and lost"
+     $player = true
     end
     puts "Would you like to play again?"
+    play_again = ""
     while  play_again != "n" && play_again != "y"
       puts "Please type yes or no."
       play_again = gets.chomp
@@ -182,6 +187,7 @@ def game_loop(play_a_round)
   end
 end
 
+$player = true
 $win = false
 game_loop(true)
 
