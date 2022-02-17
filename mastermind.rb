@@ -17,22 +17,10 @@ class Combo
 end
 
 def game_setup
-   $secret_code = Combo.new()
-   $choice_1 = Combo.new()
-   $choice_2 = Combo.new()
-   $choice_3 = Combo.new()
-   $choice_4 = Combo.new()
-   $choice_5 = Combo.new()
-   $choice_6 = Combo.new()
-   $choice_7 = Combo.new()
-   $choice_8 = Combo.new()
-   $choice_9 = Combo.new()
-   $choice_10 = Combo.new()
-   $choice_11 = Combo.new()
-   $choice_12 = Combo.new()
+   $secret_code = comp_choice()
+   $turns = Array.new(12," x")
+   $turns_results = Array.new(12, " +")
    $player = true
-   x = comp_choice()
-   $secret_code.array_change(x)
 end
 
 def game_display
@@ -102,6 +90,7 @@ game_setup()
 
 game_display()
 
-
+#YOU ARE OVER THINKING THIS. YOU DON'T NEED TO STORE YOUR GUESSES IN A CLASS
+#VARIABLE! YOU CAN JUST HAVE AN ARRAY OF STORED VALUES.
 
 
