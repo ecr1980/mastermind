@@ -36,26 +36,47 @@ def player_choice
   choice
 end
 
-def comp_choice
+def rand_color()
+  x = rand(6)
+  case x
+  when 0
+    x = "B"
+  when 1
+    x = "Y"
+  when 2
+    x = "R"
+  when 3
+    x = "O"
+  when 4
+    x = "G"
+  when 5
+    x = "P"
+  end
+  x
+end
+
+def comp_choice(i = 0)
   choice = Array.new(4)
 
   choice.each_with_index do |c,index|
-    x = rand(6)
-    case x
-    when 0
-      x = "B"
-    when 1
-      x = "Y"
-    when 2
-      x = "R"
-    when 3
-      x = "O"
-    when 4
-      x = "G"
-    when 5
-      x = "P"
+    if (i != 0)
+      if $turns_results[i - 1][index] == " 2"
+        x = $turns[i - 1][index]
+      else
+        been_picked = true
+        while been_picked == true
+          x = rand_color()
+          been_picked = false
+          $turns.each do |turn|
+            if turn[index] == x
+              been_picked = true
+              break
+            end
+          end
+        end
+      end
     else
-      puts "Generic Error, what gives?"
+      x = rand_color()
     end
     choice[index] = x
   end
@@ -154,14 +175,38 @@ def turn_logic(turn, i)
   $win = score_check(turn, i)
   game_display()
   if $win
-    puts "You win!"
+    if $player
+      puts "You win!"
+    else
+      puts "Computer won!"
+    end
     $win = true
   end
 end
 
+def which_player()
+  good_input = false
+  while good_input == false
+    puts "Would you like to be player 1 or 2?"
+    x = gets.chomp
+    x = x.to_i
+    if x == 1
+      $player = true
+      good_input = true
+    elsif x == 2
+      $player = false
+      good_input = true
+    else
+      puts "I'm sorry, I didn't understand. Just the number. 1 or 2?"
+    end
+  end
+end
+
+
 
 def game_loop(play_a_round)
   while play_a_round == true
+    which_player()
     game_setup()
     game_display()
     if $player == true
@@ -179,14 +224,16 @@ def game_loop(play_a_round)
         puts "You didn't get it. So sad."
         puts "Winning combo was #{$secret_code[0]} #{$secret_code[1]} #{$secret_code[2]} #{$secret_code[3]}."
       end
-      $player = false
     else
-     puts "Computers turn!"
+     puts "Computer's turn!"
      $turns.each_with_index do |turn, i|
-      turn = comp_choice() #gets computer's choice.
-      turn_logic(turn, i) 
+      turn = comp_choice(i) #gets computer's choice.
+      turn_logic(turn, i)
+      puts ""
+      if $win == true
+        break
+      end 
      end
-     $player = true
     end
     puts "Would you like to play again?"
     play_again = ""
@@ -204,6 +251,17 @@ end
 
 $player = true
 $win = false
+
+puts "Welcome to Mastermind!"
+puts "In this game one player will pick a four part combinatino of six"
+puts "different colors. The other player will have to try to figure out"
+puts "the correct colors in the correct order.\n"
+puts "Each round, the guessing player will get a 2 for each correct color"
+puts "placed at each correct position, a 1 for correct colors out of the"
+puts "correct position, and a 0 if there are none. You will not get a 1"
+puts "for a guess that has the correct color in the wrong place if you have"
+puts "already recieved a 2.\n"
+puts "Player 1 attempts to crack the code. Player 2 will create the code."
 game_loop(true)
 
 
