@@ -18,7 +18,7 @@ end
 def player_choice
   $OK = true
   puts "Please enter the four colors you want, in order."
-  puts "Choices are: Blue, Yellow, Red, Orange, Green, and Purple"
+  puts "Choices are: Blue, Yellow, Red, Orange, Green, Purple, Cyan, and Magenta"
   choice = gets.upcase.chomp
   choice = choice.split(" ")
   if choice.length != 4
@@ -27,7 +27,7 @@ def player_choice
   end
   choice.each do |color,index|
     color = color.chr
-    if (color != "B" && color != "Y" && color != "R" && color != "O" && color != "G" && color != "P")
+    if (color != "B" && color != "Y" && color != "R" && color != "O" && color != "G" && color != "P" && color != "C" && color != "M")
       puts "Only valid choices, please."
       $OK = false
       break
@@ -37,7 +37,7 @@ def player_choice
 end
 
 def rand_color()
-  x = rand(6)
+  x = rand(8)
   case x
   when 0
     x = "B"
@@ -51,6 +51,10 @@ def rand_color()
     x = "G"
   when 5
     x = "P"
+  when 6
+    x = "C"
+  when 7
+    x = "M"
   end
   x
 end
@@ -84,7 +88,7 @@ def comp_choice(i = 0)
 end
 
 def count(x)
-  color_count = Array.new(6,0)
+  color_count = Array.new(8,0)
 
   x.each do |value|
     case value
@@ -100,6 +104,10 @@ def count(x)
       color_count[4] += 1
     when "P"
       color_count[5] += 1
+    when "C"
+      color_count[6] += 1
+    when "M"
+      color_count[7] += 1
     end
   end
   color_count
@@ -119,6 +127,10 @@ def count_minus(x, value)
       x[4] -= 1
     when "P"
       x[5] -= 1
+    when "C"
+      x[6] -= 1
+    when "M"
+      x[7] -= 1
     end
   x
 end
@@ -137,6 +149,10 @@ def color_array_location(x)
     y = 4
   when "P"
     y = 5
+  when "C"
+    y = 6
+  when "M"
+    y = 7
   end
   y
 end
