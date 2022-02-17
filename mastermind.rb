@@ -30,6 +30,9 @@ def game_setup
    $choice_10 = Combo.new()
    $choice_11 = Combo.new()
    $choice_12 = Combo.new()
+   $player = true
+   x = comp_choice()
+   $secret_code.array_change(x)
 end
 
 def game_display
@@ -65,13 +68,13 @@ def player_choice
       break
     end
   end
-  array_change(color)
+  array_change[color]
 end
 
 def comp_choice
   choice = Array.new(4)
 
-  choice.each_index do |choice,index|
+  choice.each_with_index do |c,index|
     x = rand(6)
     case x
     when 0
@@ -94,7 +97,11 @@ def comp_choice
   return choice
 end
 
+
 game_setup()
 
 game_display()
+
+
+
 
