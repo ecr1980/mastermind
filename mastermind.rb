@@ -120,12 +120,10 @@ end
 
 def score_check(turn, x)
   color_count = count($secret_code)
-  puts color_count.to_s
   turn.each_with_index do |value, i|
     if value == $secret_code[i]
       $turns_results[x][i] = " 2"
       color_count = count_minus(color_count, value)
-      puts color_count.to_s
     end
   end
   turn.each_with_index do |value, i|
@@ -134,7 +132,6 @@ def score_check(turn, x)
       if (secret == value) && (color_count[c_a_l] > 0) && ($turns_results[x][i] != " 2")
         $turns_results[x][i] = " 1"
         color_count = count_minus(color_count,value)
-        puts color_count.to_s
         break
       elsif ($turns_results[x][i] != " 1") && ($turns_results[x][i] != " 2")
         $turns_results[x][i] = " 0"
