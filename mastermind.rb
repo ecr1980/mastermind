@@ -95,7 +95,6 @@ def count_minus(x, value)
     when "P"
       x[5] -= 1
     end
-  end
   x
 end
 
@@ -114,25 +113,30 @@ def color_array_location(x)
   when "P"
     y = 5
   end
+  y
 end
 
 
 
 def score_check(turn, x)
-  color_count = count(turn)
+  color_count = count($secret_code)
+  puts color_count.to_s
   turn.each_with_index do |value, i|
     if value == $secret_code[i]
       $turns_results[x][i] = " 2"
       color_count = count_minus(color_count, value)
+      puts color_count.to_s
     end
   end
   turn.each_with_index do |value, i|
     c_a_l = color_array_location(value)
     $secret_code.each_with_index do |secret, j|
-      if secret == value
+      if (secret == value) && (color_count[c_a_l] > 0) && ($turns_results[x][i] != " 2")
         $turns_results[x][i] = " 1"
+        color_count = count_minus(color_count,value)
+        puts color_count.to_s
         break
-      else
+      elsif ($turns_results[x][i] != " 1") && ($turns_results[x][i] != " 2")
         $turns_results[x][i] = " 0"
       end
     end
