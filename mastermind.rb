@@ -18,24 +18,15 @@ end
 
 def game_setup
    $secret_code = comp_choice()
-   $turns = Array.new(12," x")
-   $turns_results = Array.new(12, " +")
+   $turns = Array.new(12) {Array.new(4, "X ")}
+   $turns_results = Array.new(12) {Array.new(4, " +")}
    $player = true
 end
 
 def game_display
-  $choice_1.array_display()
-  $choice_2.array_display()
-  $choice_3.array_display()
-  $choice_4.array_display()
-  $choice_5.array_display()
-  $choice_6.array_display()
-  $choice_7.array_display()
-  $choice_8.array_display()
-  $choice_9.array_display()
-  $choice_10.array_display()
-  $choice_11.array_display()
-  $choice_12.array_display()
+  $turns.each_with_index do |turn, i|
+    puts " #{turn[0]} #{turn[1]} #{turn[2]} #{turn[3]}    #{$turns_results[i][0]} #{$turns_results[i][1]} #{$turns_results[i][2]} #{$turns_results[i][3]}"
+  end
 end
 
 def player_choice
