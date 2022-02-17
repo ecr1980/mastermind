@@ -146,28 +146,43 @@ def score_check(turn, x)
 end
 
 
-def game_loop()
-  $turns.each_with_index do |turn, i|
-    $OK = false
-    while $OK == false
-      turn = player_choice()
-    end
-    $turns[i] = turn
-    win = score_check(turn, i)
+def game_loop(play_a_round)
+  play_again = ""
+  while play_a_round == true
+    game_setup()
     game_display()
-    if win
-      puts "You win!"
-      break
+    $turns.each_with_index do |turn, i|
+      $OK = false
+      while $OK == false
+        turn = player_choice()
+      end
+      $turns[i] = turn
+      $win = score_check(turn, i)
+      game_display()
+      if $win
+        puts "You win!"
+        break
+      end
+    end
+    if $win != true
+      puts "You didn't get it. So sad."
+      puts "Winning combo was #{$secret_code[0]} #{$secret_code[1]} #{$secret_code[2]} #{$secret_code[3]}."
+    end
+    puts "Would you like to play again?"
+    while  play_again != "n" && play_again != "y"
+      puts "Please type yes or no."
+      play_again = gets.chomp
+      play_again = play_again.chr
+      puts play_again
+    end
+    if play_again == 'n'
+      play_a_round = false
+      puts "Thank you for playing"
     end
   end
 end
-    
 
-
-game_setup()
-
-game_display()
-
-game_loop()
+$win = false
+game_loop(true)
 
 
