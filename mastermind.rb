@@ -1,21 +1,3 @@
-class Combo
-  def initialize
-    @combo_array = Array.new(4,"x")
-  end
-
-  def array_change(input_array)
-    @combo_array = input_array
-  end
-
-  def array_display
-    puts " #{@combo_array[0]} #{@combo_array[1]} #{@combo_array[2]} #{@combo_array[3]}"
-  end
-
-  def check_array
-    @combo_array
-  end
-end
-
 def game_setup
    $secret_code = comp_choice()
    $turns = Array.new(12) {Array.new(4, "-")}
