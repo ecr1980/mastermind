@@ -1,5 +1,10 @@
 def game_setup
+  if $player == true
    $secret_code = comp_choice()
+  else
+    puts "Your turn to make the secret code."
+    $secret_code = player_choice()
+  end
    $turns = Array.new(12) {Array.new(4, "-")}
    $turns_results = Array.new(12) {Array.new(4, " +")}
 end
@@ -144,6 +149,16 @@ def score_check(turn, x)
   end
 end
 
+def turn_logic(turn, i)
+  $turns[i] = turn
+  $win = score_check(turn, i)
+  game_display()
+  if $win
+    puts "You win!"
+    $win = true
+  end
+end
+
 
 def game_loop(play_a_round)
   while play_a_round == true
@@ -153,13 +168,10 @@ def game_loop(play_a_round)
       $turns.each_with_index do |turn, i|
         $OK = false
         while $OK == false
-          turn = player_choice()
+          turn = player_choice() #gets player's choice, false if invalid input
         end
-        $turns[i] = turn
-        $win = score_check(turn, i)
-        game_display()
-        if $win
-          puts "You win!"
+        turn_logic(turn, i)
+        if $win == true
           break
         end
       end
@@ -169,7 +181,11 @@ def game_loop(play_a_round)
       end
       $player = false
     else
-     puts "comp played... and lost"
+     puts "Computers turn!"
+     $turns.each_with_index do |turn, i|
+      turn = comp_choice() #gets computer's choice.
+      turn_logic(turn, i) 
+     end
      $player = true
     end
     puts "Would you like to play again?"
@@ -178,7 +194,6 @@ def game_loop(play_a_round)
       puts "Please type yes or no."
       play_again = gets.chomp
       play_again = play_again.chr
-      puts play_again
     end
     if play_again == 'n'
       play_a_round = false
