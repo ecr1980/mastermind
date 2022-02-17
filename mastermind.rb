@@ -63,7 +63,7 @@ def comp_choice(i = 0)
   choice = Array.new(4)
 
   choice.each_with_index do |c,index|
-    if (i != 0)
+    if (i != 0 && $player == false)
       if $turns_results[i - 1][index] == " 2"
         x = $turns[i - 1][index]
       else
@@ -83,6 +83,12 @@ def comp_choice(i = 0)
       x = rand_color()
     end
     choice[index] = x
+    if $player == false
+      $turns[i][index] = x
+      sleep(0.5)
+      game_display()
+      puts ""
+    end
   end
   return choice
 end
@@ -225,6 +231,7 @@ def game_loop(play_a_round)
     which_player()
     game_setup()
     game_display()
+    puts ""
     if $player == true
       $turns.each_with_index do |turn, i|
         $OK = false
@@ -241,7 +248,6 @@ def game_loop(play_a_round)
         puts "Winning combo was #{$secret_code[0]} #{$secret_code[1]} #{$secret_code[2]} #{$secret_code[3]}."
       end
     else
-     puts "Computer's turn!"
      $turns.each_with_index do |turn, i|
       turn = comp_choice(i) #gets computer's choice.
       turn_logic(turn, i)
