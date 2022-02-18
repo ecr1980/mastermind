@@ -25,8 +25,9 @@ def player_choice
     puts "Four choices, please."
     $OK = false
   end
-  choice.each do |color,index|
+  choice.each_with_index do |color, i|
     color = color.chr
+    choice[i] = color
     if (color != "B" && color != "Y" && color != "R" && color != "O" && color != "G" && color != "P" && color != "C" && color != "M")
       puts "Only valid choices, please."
       $OK = false
