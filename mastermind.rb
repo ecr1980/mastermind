@@ -275,7 +275,7 @@ $player = true
 $win = false
 
 puts "Welcome to Mastermind!"
-puts "In this game one player will pick a four part combinatino of six"
+puts "In this game one player will pick a four part combination of six"
 puts "different colors. The other player will have to try to figure out"
 puts "the correct colors in the correct order.\n"
 puts "Each round, the guessing player will get a 2 for each correct color"
