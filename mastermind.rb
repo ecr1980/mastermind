@@ -7,6 +7,7 @@ def game_setup
   end
    $turns = Array.new(12) {Array.new(4, "-")}
    $turns_results = Array.new(12) {Array.new(4, " +")}
+   $color_flag = Array.new(4){Array.new(2, 0)}
 end
 
 def game_display
@@ -60,24 +61,43 @@ def rand_color()
   x
 end
 
+def been_picked (color, index)
+  been_picked = false
+  $turns.each do |turn|
+    if turn[index] == color
+      been_picked = true
+      break
+    end  
+  end
+  been_picked
+end
+
 def comp_choice(i = 0)
   choice = Array.new(4)
-
   choice.each_with_index do |c,index|
+    flagged = false
     if (i != 0 && $player == false)
       if $turns_results[i - 1][index] == " 2"
         x = $turns[i - 1][index]
       else
-        been_picked = true
-        while been_picked == true
-          x = rand_color()
-          been_picked = false
-          $turns.each do |turn|
-            if turn[index] == x
-              been_picked = true
-              break
+        $color_flag.each_with_index do |flag, j|
+          if flag[0] == 1 
+            y = been_picked(flag[1], index)
+            if y == false
+              x = flag[1]
+              $color_flag[j] = [0,0]
+              flagged = true
+            break
             end
           end
+        end
+        if flagged == false
+          been_picked = true
+          while been_picked == true
+            y = rand_color()
+            been_picked = been_picked(y, index)
+          end
+          x = y
         end
       end
     else
@@ -179,6 +199,9 @@ def score_check(turn, x)
     $secret_code.each_with_index do |secret, j|
       if (secret == value) && (color_count[c_a_l] > 0) && ($turns_results[x][i] != " 2")
         $turns_results[x][i] = " 1"
+        if $player == false
+          $color_flag[i] = [1, value]
+        end
         color_count = count_minus(color_count,value)
         break
       elsif ($turns_results[x][i] != " 1") && ($turns_results[x][i] != " 2")
